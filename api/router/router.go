@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
+	_ "api_users/docs"
 )
 
 // NewRouter crea un nuevo enrutador con las rutas y middleware configurados.
@@ -32,6 +34,8 @@ func NewRouter(db *sql.DB) *mux.Router {
 	api.HandleFunc("/users/{id}", userHandler.Delete).Methods("DELETE")
 
 	r.HandleFunc("/login", authHandler.Login).Methods("POST")
+
+	r.PathPrefix("/").Handler(httpSwagger.WrapHandler)
 
 	return r
 	

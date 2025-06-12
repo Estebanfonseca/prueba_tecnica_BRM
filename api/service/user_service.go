@@ -33,7 +33,7 @@ func (s *UserService) Create(ctx context.Context, user *models.User) error {
 }
 
 // List devuelve una lista de todos los usuarios.
-func (s *UserService) List(ctx context.Context) ([]*models.User, error) {
+func (s *UserService) List(ctx context.Context) ([]*models.UserResponse, error) {
 	return s.userRepo.List(ctx)
 }
 

@@ -8,11 +8,37 @@ import (
 
 // User representa un usuario.
 type User struct {
-	ID string `json:"id"`
-	Name string `json:"name"`
-	Email string `json:"email"`
-	Password string `json:"-"`
+	ID string `json:"id" example:"12345"`
+	Name string `json:"name" example:"user"`
+	Email string `json:"email" example:"email@example.com"`
+	Password string `json:"password" example:"password123"`
 }
+
+// UserRequest representa el objeto de peticion de usuario.
+type UserRequest struct {
+	Name    string `json:"name" example:"example"`
+	Email   string `json:"email" example:"email@example.com"`
+	Password string `json:"password" example:"password123"`
+}
+
+// UserResponse representa el objeto de respuesta de usuario.
+type UserResponse struct {
+	ID string   `json:"id" example:"1abc"`
+	Name string `json:"name" example:"example"`
+	Email string `json:"email" example:"email@example.com"`
+}
+
+// LoginRequest representa el objeto de peticion de inicio de sesion
+type LoginRequest struct {
+	Email    string `json:"email" example:"email@example.com"`
+	Password string `json:"password" example:"password123"`
+}
+
+// Login Response representa el objeto de respuesta de inicio de sesion
+type LoginResponse struct {
+	Token string `json:"token" example:"token123"`
+}
+
 
 // Validate verifica que los campos requeridos del usuario no estén vacíos.
 // Si algún campo requerido está vacío, devuelve un error.
@@ -31,8 +57,8 @@ func (u *User) Validate() error {
 
 // Claims representa los datos del usuario en el token JWT.
 type Claims struct {
-	UserID string `json:"user_id"`
-	Email string `json:"email"`
+	UserID string `json:"user_id" example:"12345"`
+	Email string `json:"email" example:"email@example.com"`
 	jwt.RegisteredClaims
 }
 

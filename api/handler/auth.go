@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"api_users/api/service"
+	"api_users/api/models"
 )
 
 // AuthHandler maneja las solicitudes de autenticación.
@@ -18,20 +19,21 @@ func NewAuthHandler(authService *service.AuthService) *AuthHandler {
 	}
 }
 
-// LoginRequest define la estructura de la solicitud de inicio de sesion.
-type LoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
 
-// LoginResponse define la estructura de la respuesta de inicio de sesion.
-type LoginResponse struct {
-	Token string `json:"token"`
-}
-
-// Login maneja la solicitud de inicio de sesion y devuelve un token de acceso.
+// Login godoc
+// @Summary      Login
+// @Description  Login a la aplicación y devuelve un token de acceso.
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        login body models.LoginRequest true "Login request"
+// @Success      200 {object} models.LoginResponse "Login successful"
+// @Failure      400 {object} string "Invalid request body"
+// @Failure      401 {object} string "Invalid credentials"
+// @Router       /login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
-	var req LoginRequest
+	// Login maneja la solicitud de inicio de sesion y devuelve un token de acceso.
+	var req models.LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
@@ -43,8 +45,8 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := LoginResponse{
-		Token: token,
+	res := models.LoginResponse{
+		Token: "Bearer " +token,
 		}
 
 	w.Header().Set("Content-Type", "application/json")

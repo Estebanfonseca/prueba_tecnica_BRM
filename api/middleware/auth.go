@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"api_users/api/models"
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
-	"api_users/api/models"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -21,29 +23,28 @@ func AuthMiddleware(secretKey string) func(http.Handler) http.Handler {
 				return
 			}
 
-			tokenLogin := strings.TrimPrefix(authHeader, "Bearer ")
-			if tokenLogin == authHeader {
-				http.Error(w, "Invalid token format", http.StatusUnauthorized)
+			if !strings.HasPrefix(authHeader, "Bearer ") {
+				http.Error(w, "Authorization header must start with 'Bearer '", http.StatusUnauthorized)
 				return
 			}
 
-			token, err := jwt.ParseWithClaims(tokenLogin, &models.Claims{}, func(token *jwt.Token) (interface{}, error) {
+			tokenLogin := strings.TrimPrefix(authHeader, "Bearer ")
+			claims := &models.Claims{}
+
+			token, err := jwt.ParseWithClaims(tokenLogin, claims, func(token *jwt.Token) (interface{}, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+				}
 				return []byte(secretKey), nil
 			})
-
 			if err != nil || !token.Valid {
-				http.Error(w, "Invalid token", http.StatusUnauthorized)
+				http.Error(w, "Invalid token: "+err.Error(), http.StatusUnauthorized)
 				return
 			}
-
-			claims, ok := token.Claims.(*models.Claims)
-			if !ok {
-				http.Error(w, "Invalid token claims", http.StatusUnauthorized)
-				return
-			}
-
+			
 			ctx := context.WithValue(r.Context(), UserIDKey, claims.UserID)
 			next.ServeHTTP(w, r.WithContext(ctx))
-		})
-	}
+
+	})
+}
 }

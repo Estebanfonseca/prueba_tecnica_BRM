@@ -29,7 +29,7 @@ func (r *PostgresRepository) Create(ctx context.Context, user *models.User) erro
 }
 
 // List devuelve una lista de todos los usuarios en la base de datos.
-func (r *PostgresRepository) List(ctx context.Context) ([]*models.User, error) {
+func (r *PostgresRepository) List(ctx context.Context) ([]*models.UserResponse, error) {
 	query := `SELECT id, name, email FROM users`
 	rows, err := r.db.QueryContext(ctx, query)
 	if err != nil {
@@ -37,9 +37,9 @@ func (r *PostgresRepository) List(ctx context.Context) ([]*models.User, error) {
 	}
 	defer rows.Close()
 
-	var users []*models.User
+	var users []*models.UserResponse
 	for rows.Next() {
-		user := &models.User{}
+		user := &models.UserResponse{}
 		if err := rows.Scan(&user.ID, &user.Name, &user.Email); err != nil {
 			return nil, err
 		}
