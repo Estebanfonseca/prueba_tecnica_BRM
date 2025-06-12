@@ -1,4 +1,4 @@
-package api
+package router
 
 import (
 	"api_users/api/handler"
