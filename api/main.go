@@ -9,6 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// main es el punto de entrada de la aplicacion.
 func main() {
 	connStr := "postgres://user:password@db:5432/mydb?sslmode=disable"
 
