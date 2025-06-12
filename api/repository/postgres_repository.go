@@ -75,3 +75,16 @@ func (r *PostgresRepository) Delete(ctx context.Context, id string) error {
 	_, err := r.db.ExecContext(ctx, query, id)
 	return err
 }
+
+// GetByEmail obtiene un usuario por su correo electrónico.
+func (r *PostgresRepository) GetByEmail(ctx context.Context, email string) (*models.User, error) {
+	query := `SELECT id, name, email, password FROM users WHERE email = $1`
+	user := &models.User{}
+	err := r.db.QueryRowContext(ctx, query, email).Scan(&user.ID, &user.Name, &user.Email, &user.Password)
+
+	if err == sql.ErrNoRows {
+		return nil , errors.New("usuario no encontrado")
+
+	}
+	return user, err
+}
