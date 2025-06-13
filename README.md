@@ -60,6 +60,8 @@ root/
 4. una ves dentro vera la documentacion de swagger
 
 ## Explicacion y mejoras
+
+*** Explicacion ***
 - el proyecto esta estructurado en capas, cada capa tiene una responsabilidad bien definida.
 - el controlador maneja las peticiones entrantes y las envia a los servicios.
 - los servicios son responsables de la logica de negocio.
@@ -73,7 +75,7 @@ root/
 - la aplicacion usa el patron de diseño de repositorio para la comunicacion con la base de datos lo que permite cambiar de base de datos sin afectar la aplicacion 
 - decidi usar este patron de diseño para la aplicacion ya que permite escalar mas facil por su modularidad ya que he trabajado con nestjs me siento comodo al usar este patron de diseño.
 
-* Mejoras:
+*** Mejoras ***
 - Agregar roles a los usuarios para tener mas control de las acciones sensibles como la creacion  y eliminacion de usuarios
 - Agregar Oath2 para tener mas seguridad en la autenticacion
 - Agregar un sistema de logs mas robustos para tener un mejor control de los errores
