@@ -69,7 +69,7 @@ root/
 - los repositorios manejan la comunicacion con la base de datos.
 - el middleware maneja la autenticacion.
 - la documentacion de swagger esta disponible en el endpoint /
-- la aplicacion utiliza postgres como base de datos.
+- la aplicacion utiliza postgreSQL como base de datos.
 - la aplicacion utiliza docker para la orquestacion de contenedores.
 - la aplicacion utiliza golang como lenguaje de programacion.
 - la aplicacion usa el patron de diseño de repositorio para la comunicacion con la base de datos lo que permite cambiar de base de datos sin afectar la aplicacion 
@@ -77,5 +77,5 @@ root/
 
 *** Mejoras ***
 - Agregar roles a los usuarios para tener mas control de las acciones sensibles como la creacion  y eliminacion de usuarios
-- Agregar Oath2 para tener mas seguridad en la autenticacion
+- Agregar Oauth2 para tener mas seguridad en la autenticacion
 - Agregar un sistema de logs mas robustos para tener un mejor control de los errores
